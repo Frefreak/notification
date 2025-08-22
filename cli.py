@@ -19,12 +19,14 @@ parser.add_argument("-u", "--url", help="the url to send to", default="http://lo
 
 def send_text(text, to=None):
     url = f"{args.url}/text"
-    requests.post(url, json={"text": text, "to": to})
+    r = requests.post(url, json={"text": text, "to": to})
+    print(r.text)
     
 def send_markdown(text, to=None):
     url = f"{args.url}/markdown"
-    requests.post(url, json={"text": text, "to": to})
-
+    r = requests.post(url, json={"text": text, "to": to})
+    print(r.text)
+    
 if __name__ == "__main__":
     args = parser.parse_args()
     text = args.text
