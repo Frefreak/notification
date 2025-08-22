@@ -6,6 +6,7 @@
 # ]
 # ///
 
+import os
 import sys
 import argparse
 
@@ -16,6 +17,11 @@ parser.add_argument("-m", "--markdown", action="store_true", help="send markdown
 parser.add_argument("text", help="the content to send")
 parser.add_argument("-t", "--to", help="the target to send to")
 parser.add_argument("-u", "--url", help="the url to send to", default="http://localhost:8000")
+
+dirname = os.path.dirname(os.path.abspath(__file__))
+ctrl_file = os.path.join(dirname, ".ctrl")
+is_ctrl = os.path.exists(ctrl_file)
+
 
 def send_text(text, to=None):
     url = f"{args.url}/text"
@@ -38,6 +44,10 @@ if __name__ == "__main__":
     text = args.text
     if text == '-':
         text = sys.stdin.read()
+    if not is_ctrl:
+        print(text)
+        exit(0)
+
     if args.markdown:
         send_markdown(text, args.to)
     else:
