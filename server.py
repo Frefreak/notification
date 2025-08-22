@@ -156,8 +156,8 @@ def send_markdown(req: SendRequest):
 
 
 app.add_api_route("/", verify, methods=["GET"])
-app.add_api_route("/send", send_text, methods=["POST"])
-app.add_api_route("/send/markdown", send_markdown, methods=["POST"])
+app.add_api_route("/text", send_text, methods=["POST"])
+app.add_api_route("/markdown", send_markdown, methods=["POST"])
 
 
 if __name__ == "__main__":
