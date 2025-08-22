@@ -146,9 +146,18 @@ def send_text(req: SendRequest):
         return PlainTextResponse(status_code=500, content=rj['errmsg'])
     return PlainTextResponse(status_code=200, content=f"ok: {rj['msgid']}")
 
+def send_markdown(req: SendRequest):
+    if not (r := send_to_wecom_markdown(req.text, req.to)):
+        return PlainTextResponse(status_code=500, content="error")
+    rj = json.loads(r)
+    if 'errcode' in rj and rj['errcode'] != 0:
+        return PlainTextResponse(status_code=500, content=rj['errmsg'])
+    return PlainTextResponse(status_code=200, content=f"ok: {rj['msgid']}")
+
 
 app.add_api_route("/", verify, methods=["GET"])
 app.add_api_route("/send", send_text, methods=["POST"])
+app.add_api_route("/send/markdown", send_markdown, methods=["POST"])
 
 
 if __name__ == "__main__":
